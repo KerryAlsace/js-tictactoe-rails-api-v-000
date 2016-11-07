@@ -2,10 +2,7 @@ class GamesController < ApplicationController
 
 	def index
 		@games = Game.all
-		respond_to do |f|
-			f.json { render :json => @games }
-			f.html { render :index }
-		end
+		render json: @games.to_json(only: [:id, :state]), status: 200
 	end
 
 	def new
@@ -14,11 +11,12 @@ class GamesController < ApplicationController
 
 	def create
 		@game = Game.create(state: params["game"]["state"])
-		render json: @game, status: 201
+		render json: @game, status: 200
 	end
 
 	def update
-		@game = Game.update(state: params["game"]["state"])
+		@game = Game.find(params[:id])
+		@game.update(state: params["game"]["state"])
 		render json: @game, status: 200
 	end
 

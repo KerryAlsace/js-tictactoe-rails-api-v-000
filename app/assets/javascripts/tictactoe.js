@@ -100,6 +100,7 @@ function loadGameBoard(board) {
 function saveGame(reset) {
 	var path;
 	var method;
+
 	if (currentGame) {
 		path = '/games/' + currentGame;
 		method = 'PATCH';
@@ -121,12 +122,14 @@ function saveGame(reset) {
 	.success(function(data) {
 		if (reset) {
 			currentGame = undefined;
+			console.log("Success save reset " + method);
 		} else {
 			currentGame = data.id;
+			console.log("Success save " + currentGame + " " + method);
 		}
 	})
 	.error(function(data) {
-		console.log("Error")
+		console.log("Error save " + method)
 	})
 };
 
@@ -138,16 +141,10 @@ function previousGames() {
 	})
 	.success(function(data) {
 		showGames(data.games);
-		console.log("Success")
 	})
 	.error(function(data) {
-		console.log("Error")
+		console.log("Error Previous Games");
 	})
-	// $.getJSON('/games').done(function(response) {
-	// 	debugger
-	// 	showGames(response.games);
-	// 	console.log(response);
-	// });
 };
 
 function showGames(games) {
