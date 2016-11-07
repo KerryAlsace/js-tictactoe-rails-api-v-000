@@ -133,6 +133,17 @@ function saveGame(reset) {
 	})
 };
 
+function showGames(games) {
+	var gameList = $();
+	// games.forEach(function(game) {
+	// 	gameList = gameList.add($('<li>', {'data-state': game.state, 'data-gameid': game.id, text: game.id}));
+	// });
+	Array.prototype.forEach.call(games, game => {
+		gameList = gameList.add($('<li>', {'data-state': game.state, 'data-gameid': game.id, text: game.id}));
+	});
+	$('#games').html(gameList);
+};
+
 function previousGames() {
 	$.ajax({
 		url: '/games',
@@ -140,19 +151,11 @@ function previousGames() {
 		dataType: 'json',
 	})
 	.success(function(data) {
-		showGames(data.games);
+		showGames(data);
 	})
 	.error(function(data) {
 		console.log("Error Previous Games");
 	})
-};
-
-function showGames(games) {
-	var gameList = $()
-	games.forEach(function(game) {
-		gameList = gameList.add($('<li>', {'data-state': game.state, 'data-gameid': game.id, text: game.id}));
-	});
-	$('#games').html(gameList);
 };
 
 function changeGame(board, id) {
